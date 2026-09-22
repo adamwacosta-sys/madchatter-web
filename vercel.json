@@ -1,0 +1,82 @@
+{
+  "rewrites": [
+    {
+      "source": "/privacy",
+      "destination": "https://face-talk-6.emergent.host/privacy"
+    },
+    {
+      "source": "/terms",
+      "destination": "https://face-talk-6.emergent.host/terms"
+    },
+    {
+      "source": "/claim",
+      "destination": "https://face-talk-6.emergent.host/claim"
+    },
+    {
+      "source": "/claim/:path*",
+      "destination": "https://face-talk-6.emergent.host/claim/:path*"
+    },
+    {
+      "source": "/api/:path*",
+      "destination": "https://face-talk-6.emergent.host/api/:path*"
+    },
+    {
+      "source": "/static/:path*",
+      "destination": "https://face-talk-6.emergent.host/static/:path*"
+    },
+    {
+      "source": "/u/:path*",
+      "destination": "https://face-talk-6.emergent.host/u/:path*"
+    },
+    {
+      "source": "/delete-account",
+      "destination": "https://face-talk-6.emergent.host/delete-account"
+    },
+    {
+      "source": "/delete-data",
+      "destination": "https://face-talk-6.emergent.host/delete-data"
+    },
+    {
+      "source": "/:handle((?!privacy$|terms$|index$)[A-Za-z][A-Za-z0-9_]{2,23})",
+      "destination": "https://face-talk-6.emergent.host/:handle"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    },
+    {
+      "source": "/claim/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    },
+    {
+      "source": "/claim",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    },
+    {
+      "source": "/:handle((?!privacy$|terms$|index$)[A-Za-z][A-Za-z0-9_]{2,23})",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    }
+  ]
+}
