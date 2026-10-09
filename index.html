@@ -579,7 +579,7 @@ footer{border-top:var(--line);padding:40px 0 120px}
     if(bigAddr) bigAddr.textContent = shown;
     if(plateNm) plateNm.textContent = v ? (shown.charAt(0).toUpperCase() + shown.slice(1)) : 'Levi';
 
-    btn.href = v && r.ok ? CLAIM + '?handle=' + encodeURIComponent(v) : CLAIM;
+    btn.href = v && r.ok ? CLAIM + '?h=' + encodeURIComponent(v) : CLAIM;
 
     if(!v){ readout.innerHTML = '<span class="hint">' + HINT + '</span>'; return; }
     if(!r.ok){ readout.innerHTML = '<span class="warn">' + esc(r.msg) + '</span>'; return; }
@@ -615,6 +615,52 @@ footer{border-top:var(--line);padding:40px 0 120px}
       box.hidden = false;
     }).catch(function(){});
   }
+})();
+</script>
+
+<script>
+/* Lead-source tracking. Remembers how a visitor arrived (a ref / utm_ tag, or the
+   site that linked here) for 30 days in localStorage key "mc_src", and carries the
+   tag into /claim so each claim records its channel. Product Hunt arrives as
+   ?ref=producthunt on its own. Leaves the page's other scripts untouched. */
+(function () {
+  try {
+    var KEYS = ['ref', 'utm_source', 'utm_medium', 'utm_campaign'];
+    var MAX_AGE = 30 * 864e5;
+    var now = Date.now();
+    var params = new URLSearchParams(location.search);
+    var tag = null;
+    KEYS.forEach(function (k) {
+      var v = params.get(k);
+      if (v) { tag = tag || { ts: now }; tag[k] = v.slice(0, 64); }
+    });
+    var saved = null;
+    try { saved = JSON.parse(localStorage.getItem('mc_src') || 'null'); } catch (e) {}
+    if (saved && !(saved.ts && now - saved.ts < MAX_AGE)) saved = null;
+    if (!tag && !saved && document.referrer) {
+      var host = '';
+      try { host = new URL(document.referrer).hostname.replace(/^www\./, ''); } catch (e) {}
+      if (host && !/(^|\.)madchatter\.chat$/.test(host)) tag = { ts: now, referrer_host: host };
+    }
+    if (tag) {
+      saved = tag;
+      try { localStorage.setItem('mc_src', JSON.stringify(tag)); } catch (e) {}
+    }
+    if (!saved) return;
+    var carry = new URLSearchParams();
+    KEYS.forEach(function (k) { if (saved[k]) carry.set(k, saved[k]); });
+    var qs = carry.toString();
+    if (!qs) return;
+    function tagLink(e) {
+      var a = e.target && e.target.closest ? e.target.closest('a[href^="/claim"]') : null;
+      if (!a) return;
+      var href = a.getAttribute('href');
+      if (/[?&](ref|utm_source)=/.test(href)) return;
+      a.setAttribute('href', href + (href.indexOf('?') === -1 ? '?' : '&') + qs);
+    }
+    document.addEventListener('click', tagLink, true);
+    document.addEventListener('auxclick', tagLink, true);
+  } catch (e) {}
 })();
 </script>
 
