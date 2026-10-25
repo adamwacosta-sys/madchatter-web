@@ -1,0 +1,17 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "chat.madchatter.app",
+      "sha256_cert_fingerprints": [
+        "53:32:40:19:7F:5E:B0:3A:F4:CD:C1:A2:A0:9F:A6:88:EA:22:2B:BF:29:F4:CF:82:B7:F4:1E:86:78:CE:D1:AD",
+        "6A:CC:16:90:F5:D4:D8:DD:FC:DA:4F:CE:F7:42:79:D7:28:91:9C:1D:DB:59:92:16:09:51:EA:25:49:39:32:D3",
+        "49:C7:99:75:FF:08:80:DE:6F:39:B0:61:8E:9E:EC:11:6C:9A:8A:9B:96:9B:30:CE:10:AF:6B:6F:F1:55:00:B1"
+      ]
+    }
+  }
+]
